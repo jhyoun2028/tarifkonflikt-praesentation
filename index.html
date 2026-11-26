@@ -2,465 +2,136 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tarifkonflikt">
-<meta name="theme-color" content="#0e0e10">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23c8321f%22/%3E%3Crect x=%2216%22 width=%2216%22 height=%2232%22 fill=%22%232f4f6f%22/%3E%3C/svg%3E">
+<meta name="theme-color" content="#faf8f3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23c8321f%22/%3E%3C/svg%3E">
 <title>Der Tarifkonflikt zwischen IG Metall und den Arbeitgebern</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#f3f0e8; --ink:#16161a; --muted:#6b6860; --line:#d8d3c6;
-    --red:#c8321f; --steel:#2f4f6f; --gold:#b8871b;
-    --head:'Archivo',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:#0e0e10;overflow:hidden;font-family:var(--body);color:var(--ink);-webkit-text-size-adjust:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
-  body{position:fixed;inset:0}
-  #viewport{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-  #stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
-  .slide{position:absolute;inset:0;background:var(--paper);padding:90px 110px;display:none;flex-direction:column;overflow:hidden}
-  .slide.active{display:flex;animation:in .35s ease-out}
-  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-  .kicker{font-family:var(--head);font-weight:700;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:22px;display:flex;align-items:center;gap:14px}
-  .kicker::before{content:"";width:42px;height:4px;background:var(--red)}
-  h1,h2{font-family:var(--head);font-weight:900;letter-spacing:-.02em;line-height:1.02}
-  h1{font-size:104px}
-  h2{font-size:68px;margin-bottom:46px}
-  p,li{font-size:32px;line-height:1.45}
-  .muted{color:var(--muted)}
-  .footer{position:absolute;left:110px;right:110px;bottom:42px;display:flex;justify-content:space-between;font-size:18px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
-
-  /* Title */
-  .title{background:var(--ink);color:var(--paper);justify-content:center}
-  .title h1{max-width:1250px}
-  .title h1 em{font-style:normal;color:var(--red)}
-  .title .sub{margin-top:44px;font-size:30px;color:#b9b5aa}
-  .title .footer{border-color:#33333a;color:#8d8a82}
-  .bar{position:absolute;top:0;left:0;height:18px;width:100%;background:linear-gradient(90deg,var(--red) 0 50%,var(--steel) 50% 100%)}
-
-  /* grid of sectors */
-  .split{display:grid;grid-template-columns:1.15fr 1fr;gap:80px;align-items:center;flex:1}
-  .sectors{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .sectors div{background:#fff;border:1px solid var(--line);padding:30px 28px;font-family:var(--head);font-weight:700;font-size:30px;border-left:8px solid var(--ink)}
-  .bignum{font-family:var(--head);font-weight:900;font-size:190px;line-height:.9;letter-spacing:-.04em}
-  .bignum small{font-size:70px}
-  .bigcap{font-size:32px;margin-top:18px}
-
-  /* timeline */
-  .timeline{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:40px}
-  .timeline::before{content:"";position:absolute;left:0;right:0;top:27px;height:4px;background:var(--ink)}
-  .tl{position:relative;padding-top:74px}
-  .tl::before{content:"";position:absolute;top:14px;left:0;width:30px;height:30px;border-radius:50%;background:var(--paper);border:5px solid var(--ink)}
-  .tl.hot::before{background:var(--red);border-color:var(--red)}
-  .tl .d{font-family:var(--head);font-weight:900;font-size:38px;line-height:1}
-  .tl .m{font-family:var(--head);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:6px 0 16px}
-  .tl p{font-size:24px;line-height:1.35}
-  .tl.hot .d{color:var(--red)}
-
-  /* causes */
-  .causes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .cause{background:#fff;border:1px solid var(--line);padding:34px 32px;min-height:220px}
-  .cause .n{font-family:var(--head);font-weight:900;font-size:24px;color:var(--red);margin-bottom:18px}
-  .cause h3{font-family:var(--head);font-weight:800;font-size:34px;line-height:1.1;margin-bottom:12px}
-  .cause p{font-size:24px;color:var(--muted);line-height:1.4}
-
-  /* positions */
-  .vs{display:grid;grid-template-columns:1fr 90px 1fr;flex:1;min-height:0;align-items:stretch}
-  .side{padding:34px 44px;color:#fff;display:flex;flex-direction:column}
-  .side.ig{background:var(--red)} .side.ag{background:var(--steel)}
-  .side .who{font-family:var(--head);font-weight:800;font-size:26px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
-  .side .num{font-family:var(--head);font-weight:900;font-size:110px;line-height:1;margin:12px 0 4px;white-space:nowrap;letter-spacing:-.03em}
-  .side .num span{font-size:44px;font-weight:700}
-  .side .lead{font-size:28px;margin-bottom:22px}
-  .side ul{list-style:none;border-top:1px solid rgba(255,255,255,.35);padding-top:18px;margin-top:auto}
-  .side li{font-size:25px;line-height:1.4;padding-left:26px;position:relative;margin:6px 0}
-  .side li::before{content:"→";position:absolute;left:0}
-  .side .why{margin-top:18px;font-size:22px;opacity:.9;font-style:italic}
-  .vsmid{display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:900;font-size:44px}
-
-  /* strikes */
-  .strike{display:grid;grid-template-columns:1fr 1fr;gap:80px;flex:1;align-items:center}
-  .steps{border-left:4px solid var(--ink);padding-left:36px}
-  .steps div{margin-bottom:34px}
-  .steps b{font-family:var(--head);font-weight:800;font-size:30px;display:block;margin-bottom:6px}
-  .steps p{font-size:26px;color:var(--muted)}
-  .quote{border-top:4px solid var(--steel);padding-top:20px;margin-top:40px;font-size:26px;color:var(--steel)}
-
-  /* today */
-  .today{background:var(--ink);color:var(--paper)}
-  .today .kicker{color:#ff6a52}.today .kicker::before{background:#ff6a52}
-  .place{font-family:var(--head);font-weight:900;font-size:150px;line-height:.95;letter-spacing:-.03em;margin:10px 0 40px}
-  .today .stakes{display:flex;gap:22px;margin-top:auto}
-  .today .stakes div{flex:1;border:2px solid #3a3a42;padding:28px 30px;font-family:var(--head);font-weight:700;font-size:32px}
-  .today .stakes small{display:block;font-family:var(--body);font-weight:400;font-size:20px;color:#9a968c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em}
-
-  /* dilemma */
-  .scale{display:grid;grid-template-columns:1fr auto 1fr;gap:40px;align-items:center;flex:1}
-  .pan{padding:46px;border:3px solid var(--ink);background:#fff}
-  .pan h3{font-family:var(--head);font-weight:800;font-size:40px;margin-bottom:18px}
-  .pan p{font-size:28px;color:var(--muted)}
-  .pan.l h3{color:var(--red)} .pan.r h3{color:var(--steel)}
-  .pivot{font-family:var(--head);font-weight:900;font-size:90px;color:var(--gold)}
-
-  /* question */
-  .question{background:var(--red);color:#fff;justify-content:center}
-  .question .kicker{color:#fff}.question .kicker::before{background:#fff}
-  .question h1{font-size:88px;max-width:1350px;line-height:1.08}
-  .question .qm{position:absolute;right:70px;bottom:-120px;font-family:var(--head);font-weight:900;font-size:720px;line-height:1;opacity:.14}
-
-  /* news */
-  .news{display:grid;grid-template-columns:420px 1fr;gap:70px;flex:1;align-items:center}
-  .tag{font-family:var(--head);font-weight:900;font-size:240px;line-height:.85;color:var(--ink);letter-spacing:-.04em}
-  .tag.small{font-size:150px}
-  .news .body p{font-size:32px;margin-bottom:28px}
-  .pro-con{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
-  .pro-con div{padding:26px 28px;background:#fff;border:1px solid var(--line);font-size:26px;line-height:1.4}
-  .pro-con b{display:block;font-family:var(--head);font-size:22px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
-  .pro-con .p b{color:#2c7a4b} .pro-con .c b{color:var(--red)}
-
-  .good{background:#e9efe6}
-  .good .kicker{color:#2c7a4b}.good .kicker::before{background:#2c7a4b}
-  .light{display:flex;align-items:center;gap:30px;margin:10px 0 40px}
-  .wave{flex:1;height:70px;position:relative}
-  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:auto}
-  .facts div{background:#fff;border:1px solid #cfdcc9;padding:28px 30px}
-  .facts b{display:block;font-family:var(--head);font-weight:900;font-size:44px;color:#2c7a4b;margin-bottom:6px}
-  .facts span{font-size:24px;color:var(--muted)}
-
-  .end{background:var(--ink);color:var(--paper);justify-content:center;align-items:flex-start}
-  .end h1{font-size:150px}
-  .end p{color:#9a968c;margin-top:30px}
-
-  /* answer (backup) */
-  .answer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1}
-  .answer .cols div{border-top:6px solid var(--ink);padding-top:22px}
-  .answer .cols div:nth-child(1){border-color:var(--red)}
-  .answer .cols div:nth-child(2){border-color:var(--steel)}
-  .answer .cols div:nth-child(3){border-color:var(--gold)}
-  .answer h3{font-family:var(--head);font-weight:800;font-size:32px;margin-bottom:14px}
-  .answer p{font-size:24px;color:var(--muted)}
-  .answer .bottom{margin-top:30px;padding:28px 34px;background:var(--ink);color:var(--paper);font-size:28px}
-
-  /* chrome */
-  #progress{position:fixed;left:0;bottom:0;height:4px;background:var(--red);transition:width .3s;z-index:5}
-  #hud{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:6;opacity:.25;transition:opacity .2s}
-  #hud:hover{opacity:1}
-  #hud button{font:600 14px var(--body);background:#222;color:#eee;border:1px solid #444;border-radius:6px;padding:7px 11px;cursor:pointer}
-  #count{font:500 14px var(--body);color:#aaa;align-self:center;padding:0 6px}
-  #notes{position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;-webkit-overflow-scrolling:touch;-webkit-user-select:text;user-select:text;padding-bottom:calc(54px + env(safe-area-inset-bottom));background:#111;color:#e8e4da;border-top:3px solid var(--red);padding:20px 28px 54px;font-size:18px;line-height:1.6;display:none;z-index:4}
-  #notes.show{display:block}
-  #notes h4{font:700 13px var(--body);letter-spacing:.14em;text-transform:uppercase;color:#ff6a52;margin-bottom:8px}
-  #notes p{font-size:18px;margin-bottom:10px;max-width:1100px}
-  aside.note{display:none}
-  @media (hover:none),(pointer:coarse){
-    #hud{opacity:.6}
-    #hud button{font-size:18px;padding:12px 16px;min-width:48px;min-height:44px}
-    #count{font-size:16px}
-  }
-  #help{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#222;color:#ddd;font:14px var(--body);padding:8px 14px;border-radius:6px;z-index:7;transition:opacity .6s}
-
-  @media print{
-    @page{size:1600px 900px;margin:0}
-    html,body{overflow:visible;background:#fff}
-    #viewport{position:static;display:block}
-    #stage{transform:none!important}
-    .slide{display:flex!important;position:relative;page-break-after:always;animation:none}
-    #hud,#progress,#notes,#help{display:none!important}
-  }
+  :root{--bg:#faf8f3;--fg:#1c1b19;--muted:#7a766d;--line:#e4dfd4;--accent:#c8321f;--mark:#fff1c7;--fs:22px}
+  html.dark{--bg:#141414;--fg:#e9e5dc;--muted:#8f8a80;--line:#2c2b29;--accent:#ff7a63;--mark:#3a3420}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Source Serif 4',Georgia,serif;font-size:var(--fs);line-height:1.7;-webkit-tap-highlight-color:transparent}
+  main{max-width:760px;margin:0 auto;padding:calc(84px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) calc(120px + env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left))}
+  h1{font-size:1.55em;line-height:1.25;margin:0 0 1.2em;font-weight:700}
+  h1 small{display:block;font-size:.5em;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:.5em}
+  h2{font-size:1.15em;line-height:1.3;margin:2.6em 0 .8em;padding-top:1.6em;border-top:1px solid var(--line);font-weight:700}
+  p{margin:0 -.45em 1.1em;padding:.15em .45em;border-radius:6px;transition:background .2s;cursor:pointer}
+  p.on{background:var(--mark)}
+  .q{font-weight:600}
+  .frage{font-weight:700;border-left:4px solid var(--accent);border-radius:0 6px 6px 0;padding-left:.8em;margin-left:0}
+  #bar{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:flex-end;gap:8px;padding:calc(12px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 12px 14px;background:linear-gradient(var(--bg) 70%,transparent)}
+  #bar button{font:600 17px -apple-system,system-ui,sans-serif;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;min-width:48px;height:44px;padding:0 12px;cursor:pointer}
+  #bar button.active{border-color:var(--accent);color:var(--accent)}
+  #progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:6;width:0}
 </style>
 </head>
 <body>
-<div id="viewport"><div id="stage">
-
-<!-- 1 -->
-<section class="slide title">
-  <div class="bar"></div>
-  <div class="kicker" style="color:#ff6a52">Hauptthema</div>
-  <h1>Der Tarifkonflikt zwischen <em>IG&nbsp;Metall</em> und den Arbeitgebern</h1>
-  <p class="sub">Metall- und Elektroindustrie in Deutschland · Stand: 25. November 2026</p>
-  <div class="footer"><span>Nachrichten-Referat</span><span>Tarifrunde 2026</span></div>
-  <aside class="note"><p>Ich möchte heute über den aktuellen Tarifkonflikt zwischen der Gewerkschaft IG Metall und den Arbeitgeberverbänden in der deutschen Metall- und Elektroindustrie berichten.</p></aside>
-</section>
-
-<!-- 2 -->
-<section class="slide">
-  <div class="kicker">Die Branche</div>
-  <h2>Metall- und Elektroindustrie</h2>
-  <div class="split">
-    <div class="sectors">
-      <div>Automobil&shy;industrie</div>
-      <div>Maschinenbau</div>
-      <div>Elektro&shy;industrie</div>
-      <div>Metall&shy;verarbeitung</div>
-    </div>
-    <div>
-      <div class="bignum">3,7<small> Mio.</small></div>
-      <p class="bigcap">Beschäftigte – eine Schlüsselbranche für die deutsche Wirtschaft und den <b>Export</b></p>
-    </div>
-  </div>
-  <aside class="note"><p>Zunächst ist wichtig zu verstehen, was zu dieser Branche gehört. Dazu zählen beispielsweise die Automobilindustrie, der Maschinenbau, die Elektroindustrie und die Metallverarbeitung. Sie ist für Deutschland besonders bedeutend, weil sie rund 3,7 Millionen Menschen beschäftigt und eine wichtige Rolle für die deutsche Wirtschaft und den Export spielt.</p></aside>
-</section>
-
-<!-- 3 -->
-<section class="slide">
-  <div class="kicker">Chronologie</div>
-  <h2>Wie es zum Streik kam</h2>
-  <div class="timeline">
-    <div class="tl"><div class="d">23.</div><div class="m">September</div><p>IG Metall beschließt ihre Forderungen</p></div>
-    <div class="tl"><div class="d">7.</div><div class="m">Oktober</div><p>Start der Tarif&shy;verhandlungen</p></div>
-    <div class="tl"><div class="d">31.</div><div class="m">Oktober</div><p>Ende der Friedens&shy;pflicht</p></div>
-    <div class="tl hot"><div class="d">1.</div><div class="m">November</div><p>Warnstreiks sind möglich</p></div>
-    <div class="tl hot"><div class="d">20.</div><div class="m">November</div><p>Ganztägige Warnstreiks (24&nbsp;h)</p></div>
-    <div class="tl hot"><div class="d">25.</div><div class="m">November</div><p>Verhandlungen in Mannheim</p></div>
-  </div>
-  <aside class="note"><p>Der aktuelle Tarifkonflikt begann im Herbst 2026. Am 23. September beschloss die IG Metall ihre Forderungen. Die eigentlichen Tarifverhandlungen starteten am 7. Oktober. Nachdem mehrere Verhandlungsrunden ohne Einigung geblieben waren, endete am 31. Oktober die sogenannte Friedenspflicht. Ab dem 1. November waren deshalb Warnstreiks möglich.</p></aside>
-</section>
-
-<!-- 4 -->
-<section class="slide">
-  <div class="kicker">Hintergrund</div>
-  <h2>Warum kam es zu diesem Konflikt?</h2>
-  <div class="causes">
-    <div class="cause"><div class="n">01</div><h3>Hohe Produktions&shy;kosten</h3><p>Die Produktion in Deutschland ist teuer.</p></div>
-    <div class="cause"><div class="n">02</div><h3>Internationale Konkurrenz</h3><p>Starker Wettbewerb auf dem Weltmarkt.</p></div>
-    <div class="cause"><div class="n">03</div><h3>Schwache Auftragslage</h3><p>Teilweise weniger Bestellungen.</p></div>
-    <div class="cause"><div class="n">04</div><h3>Wandel zur E-Mobilität</h3><p>Die Autoindustrie muss viel Geld in neue Technologien investieren.</p></div>
-    <div class="cause" style="grid-column:span 2;background:var(--ink);color:var(--paper);border-color:var(--ink)"><div class="n">05</div><h3>Verlust von Arbeitsplätzen</h3><p style="color:#a9a59b">In den vergangenen Jahren sind zahlreiche Arbeitsplätze verloren gegangen.</p></div>
-  </div>
-  <aside class="note"><p>Aber warum kam es überhaupt zu diesem Konflikt?</p><p>Die deutsche Metall- und Elektroindustrie steht vor verschiedenen wirtschaftlichen Herausforderungen. Dazu gehören hohe Produktionskosten, internationale Konkurrenz und eine teilweise schwache Auftragslage. Besonders die Automobilindustrie muss sich beispielsweise an den Wandel zur Elektromobilität anpassen und viel Geld in neue Technologien investieren. Gleichzeitig sind in den vergangenen Jahren zahlreiche Arbeitsplätze verloren gegangen.</p></aside>
-</section>
-
-<!-- 5 -->
-<section class="slide">
-  <div class="kicker">Die Positionen</div>
-  <h2 style="margin-bottom:34px">Forderung gegen Angebot</h2>
-  <div class="vs">
-    <div class="side ig">
-      <div class="who">IG Metall fordert</div>
-      <div class="num">5&nbsp;%</div>
-      <div class="lead">mehr Lohn innerhalb von 12 Monaten</div>
-      <ul>
-        <li>Arbeitsplätze &amp; Standorte langfristig sichern</li>
-        <li>Tarifliche Gewinnbeteiligung in erfolgreichen Unternehmen</li>
-      </ul>
-      <div class="why">„Faire Bezahlung und Sicherheit für die Zukunft“</div>
-    </div>
-    <div class="vsmid">vs.</div>
-    <div class="side ag">
-      <div class="who">Arbeitgeber bieten</div>
-      <div class="num">1,3&nbsp;%</div>
-      <div class="lead">Lohnerhöhung ab Juli 2028</div>
-      <ul>
-        <li>Einmalzahlung: 1&nbsp;% des Jahresbruttoentgelts im Juli 2027</li>
-        <li>Höhere Lohnkosten gefährden die Wettbewerbsfähigkeit</li>
-      </ul>
-      <div class="why">„Zusätzliche Belastung für die Unternehmen“</div>
-    </div>
-  </div>
-  <aside class="note"><p>Vor diesem Hintergrund haben beide Seiten unterschiedliche Interessen.</p><p>Die IG Metall fordert fünf Prozent mehr Lohn innerhalb von zwölf Monaten. Außerdem möchte sie Arbeitsplätze und Standorte langfristig sichern. In wirtschaftlich erfolgreichen Unternehmen fordert sie zusätzlich eine tarifliche Gewinnbeteiligung. Die Gewerkschaft begründet ihre Forderungen damit, dass die Beschäftigten trotz der schwierigen wirtschaftlichen Lage eine faire Bezahlung und Sicherheit für ihre Zukunft verdienen.</p><p>Die Arbeitgeber bieten dagegen eine Einmalzahlung von einem Prozent des durchschnittlichen tariflichen Jahresbruttoentgelts im Juli 2027 sowie eine Lohnerhöhung von 1,3 Prozent ab Juli 2028 an. Sie argumentieren, dass höhere Lohnkosten die Unternehmen zusätzlich belasten und ihre internationale Wettbewerbsfähigkeit gefährden könnten.</p></aside>
-</section>
-
-<!-- 6 -->
-<section class="slide">
-  <div class="kicker">Eskalation</div>
-  <h2>Warnstreiks</h2>
-  <div class="strike">
-    <div class="steps">
-      <div><b>Anfang November</b><p>Hunderttausende Beschäftigte bei kürzeren Arbeitsniederlegungen</p></div>
-      <div><b>Seit 20. November</b><p>Ganztägige Warnstreiks – Arbeitsniederlegungen über 24 Stunden</p></div>
-      <div class="quote"><b style="color:var(--steel)">Kritik der Arbeitgeber</b>Zusätzliche wirtschaftliche Schäden und Gefährdung von Arbeitsplätzen</div>
-    </div>
-    <div>
-      <div class="bignum" style="color:var(--red)">340.000</div>
-      <p class="bigcap">Beschäftigte allein am Freitag und Montag <span class="muted">(laut IG Metall)</span></p>
-    </div>
-  </div>
-  <aside class="note"><p>Da sich die beiden Seiten bisher nicht einigen konnten, kam es zu Warnstreiks. Anfang November beteiligten sich bereits Hunderttausende Beschäftigte an kürzeren Arbeitsniederlegungen. Seit dem 20. November setzt die IG Metall zusätzlich auf ganztägige Warnstreiks, also Arbeitsniederlegungen über 24 Stunden. Laut der Gewerkschaft beteiligten sich allein am Freitag und Montag rund 340.000 Beschäftigte daran. Die Arbeitgeber kritisieren diese Streiks, weil sie zusätzliche wirtschaftliche Schäden und eine Gefährdung von Arbeitsplätzen befürchten.</p></aside>
-</section>
-
-<!-- 7 -->
-<section class="slide today">
-  <div class="kicker">Heute, 25. November</div>
-  <div class="place">Verhandlungen<br>in Mannheim</div>
-  <div class="stakes">
-    <div><small>Es geht um</small>die Höhe der Löhne</div>
-    <div><small>Und um</small>die Zukunft der Arbeitsplätze</div>
-    <div><small>Und um</small>Industriestandorte in Deutschland</div>
-  </div>
-  <aside class="note"><p>Am heutigen 25. November sollen die Verhandlungen in Mannheim fortgesetzt werden. Dabei geht es nicht nur um die Höhe der Löhne, sondern auch um die Zukunft der Arbeitsplätze und Industriestandorte in Deutschland.</p></aside>
-</section>
-
-<!-- 8 -->
-<section class="slide">
-  <div class="kicker">Das Grundproblem</div>
-  <h2>Zwei berechtigte Interessen</h2>
-  <div class="scale">
-    <div class="pan l"><h3>Beschäftigte</h3><p>brauchen faire Löhne und sichere Arbeitsplätze.</p></div>
-    <div class="pivot">⇄</div>
-    <div class="pan r"><h3>Unternehmen</h3><p>müssen wirtschaftlich erfolgreich und international konkurrenzfähig bleiben.</p></div>
-  </div>
-  <aside class="note"><p>Der Konflikt zeigt also ein grundlegendes Problem: Einerseits brauchen Beschäftigte faire Löhne und sichere Arbeitsplätze. Andererseits müssen Unternehmen wirtschaftlich erfolgreich bleiben, um langfristig Arbeitsplätze anbieten und international konkurrenzfähig sein zu können.</p></aside>
-</section>
-
-<!-- 9 -->
-<section class="slide">
-  <div class="kicker">Weitere Nachrichten · 1</div>
-  <div class="news">
-    <div class="tag">KI</div>
-    <div class="body">
-      <h2 style="margin-bottom:30px">KI in der Migrations&shy;verwaltung</h2>
-      <p>In Deutschland wird diskutiert, ob künstliche Intelligenz künftig stärker in der Migrationsverwaltung eingesetzt werden soll.</p>
-      <div class="pro-con">
-        <div class="p"><b>Chance</b>Schnellere und effizientere Verwaltungsverfahren</div>
-        <div class="c"><b>Kritik</b>Datenschutz und diskriminierende Entscheidungen durch Algorithmen</div>
-      </div>
-    </div>
-  </div>
-  <aside class="note"><p>In Deutschland wird diskutiert, ob künstliche Intelligenz künftig stärker in der Migrationsverwaltung eingesetzt werden soll. Dadurch könnten Verwaltungsverfahren schneller und effizienter werden. Kritiker warnen jedoch vor möglichen Problemen beim Datenschutz und vor diskriminierenden Entscheidungen durch Algorithmen.</p></aside>
-</section>
-
-<!-- 10 -->
-<section class="slide">
-  <div class="kicker">Weitere Nachrichten · 2</div>
-  <div class="news">
-    <div>
-      <div class="tag small">190.000+</div>
-      <p class="bigcap">aktive Soldatinnen und Soldaten Ende Oktober</p>
-    </div>
-    <div class="body">
-      <h2 style="margin-bottom:30px">Wehrdienst und Wehrpflicht</h2>
-      <p>Die Wehrpflicht wird in Deutschland weiterhin diskutiert.</p>
-      <p>Laut Verteidigungsministerium wurde das aktuelle <b>Personalziel</b> der Bundeswehr sogar übertroffen.</p>
-      <p class="muted">→ Die Regierung sieht momentan keinen Bedarf für zusätzliche verpflichtende Maßnahmen.</p>
-    </div>
-  </div>
-  <aside class="note"><p>Auch die Wehrpflicht wird in Deutschland weiterhin diskutiert. Laut Verteidigungsministerium hatte die Bundeswehr Ende Oktober mehr als 190.000 aktive Soldatinnen und Soldaten. Damit wurde das aktuelle Personalziel sogar übertroffen. Deshalb sieht die Regierung momentan keinen Bedarf für zusätzliche verpflichtende Maßnahmen.</p></aside>
-</section>
-
-<!-- 11 -->
-<section class="slide good">
-  <div class="kicker">Positive Nachricht</div>
-  <h2 style="margin-bottom:20px">Deutscher Zukunftspreis für Forscher aus Karlsruhe</h2>
-  <div class="light">
-    <svg class="wave" viewBox="0 0 1380 70" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 35 H120 V12 H240 V58 H360 V12 H480 V35" fill="none" stroke="#9a968c" stroke-width="5"/>
-      <text x="520" y="45" font-family="Archivo" font-weight="800" font-size="30" fill="#16161a">→</text>
-      <path d="M580 35 Q 620 0 660 35 T 740 35 T 820 35 T 900 35 T 980 35 T 1060 35 T 1140 35 T 1220 35 T 1300 35 T 1380 35" fill="none" stroke="#2c7a4b" stroke-width="5"/>
-    </svg>
-  </div>
-  <p style="max-width:1300px">Eine innovative <b>Mikrochip-Technologie</b> überträgt Daten mithilfe von <b>Licht</b> statt herkömmlicher elektrischer Signale.</p>
-  <div class="facts">
-    <div><b>18. Nov.</b><span>Verleihung des Preises an drei Forscher</span></div>
-    <div><b>Schneller</b><span>und gleichzeitig energieeffizienter</span></div>
-    <div><b>Zukunft</b><span>Wichtig für leistungsfähige Computer und Rechenzentren</span></div>
-  </div>
-  <aside class="note"><p>Eine positive Nachricht kommt aus der Wissenschaft: Am 18. November haben drei Forscher aus Karlsruhe den Deutschen Zukunftspreis gewonnen. Sie wurden für eine innovative Mikrochip-Technologie ausgezeichnet, die Daten mithilfe von Licht statt herkömmlicher elektrischer Signale übertragen kann. Dadurch können Informationen schneller und gleichzeitig energieeffizienter verarbeitet werden. Diese Entwicklung könnte in Zukunft besonders für leistungsfähige Computer und Rechenzentren wichtig sein. Der Preis zeigt, dass Deutschland weiterhin wichtige Beiträge zur technologischen Forschung leistet.</p></aside>
-</section>
-
-<!-- 12 -->
-<section class="slide question">
-  <div class="qm">?</div>
-  <div class="kicker">Diskussionsfrage</div>
-  <h1>Wie kann ein Ausgleich zwischen fairen Löhnen und der Wettbewerbs&shy;fähigkeit deutscher Unternehmen geschaffen werden?</h1>
-  <aside class="note"><p>Deshalb möchte ich euch folgende Frage zur Diskussion stellen: Wie kann ein Ausgleich zwischen fairen Löhnen und der Wettbewerbsfähigkeit deutscher Unternehmen geschaffen werden?</p><p><b>Tipp:</b> Eine gute Antwort sollte zeigen, dass beide Seiten berechtigte Interessen haben. Es geht nicht darum, dass eine Seite vollständig nachgeben muss, sondern dass ein fairer Kompromiss gefunden wird.</p></aside>
-</section>
-
-<!-- 13 -->
-<section class="slide answer">
-  <div class="kicker">Mögliche Antwort</div>
-  <h2>Ein fairer Kompromiss</h2>
-  <div class="cols">
-    <div><h3>Schrittweise Löhne</h3><p>Die Löhne steigen schrittweise und entsprechend der wirtschaftlichen Lage der Unternehmen.</p></div>
-    <div><h3>Gemeinsam sichern</h3><p>Unternehmen und Gewerkschaften entwickeln gemeinsam Maßnahmen für Arbeitsplätze und Wettbewerbsfähigkeit.</p></div>
-    <div><h3>Gewinnbeteiligung</h3><p>Erfolgreiche Unternehmen beteiligen ihre Beschäftigten zusätzlich am Gewinn.</p></div>
-  </div>
-  <div class="bottom"><b>Beide Seiten sind voneinander abhängig:</b> Nur durch Zusammenarbeit entsteht eine Lösung, die für alle fair ist.</div>
-  <aside class="note"><p>Meiner Meinung nach ist es wichtig, sowohl die Interessen der Arbeitnehmer als auch die der Unternehmen zu berücksichtigen. Einerseits haben die Beschäftigten aufgrund der gestiegenen Lebenshaltungskosten ein Recht auf faire Löhne. Außerdem brauchen sie Sicherheit für ihre Arbeitsplätze und ihre Zukunft. Andererseits stehen viele Unternehmen unter wirtschaftlichem Druck und müssen international wettbewerbsfähig bleiben. Zu hohe Lohnkosten könnten ihre finanzielle Situation zusätzlich verschlechtern und langfristig sogar Arbeitsplätze gefährden.</p><p>Deshalb halte ich einen Kompromiss für sinnvoll: Die Löhne sollten schrittweise und entsprechend der wirtschaftlichen Lage der Unternehmen steigen. Gleichzeitig könnten Unternehmen und Gewerkschaften gemeinsam Maßnahmen entwickeln, um Arbeitsplätze zu sichern und die Wettbewerbsfähigkeit zu stärken. Erfolgreiche Unternehmen könnten ihre Beschäftigten zusätzlich am Gewinn beteiligen.</p><p>Letztendlich sollten beide Seiten verstehen, dass sie voneinander abhängig sind: Unternehmen brauchen qualifizierte und motivierte Arbeitnehmer, während Arbeitnehmer auf wirtschaftlich stabile Unternehmen angewiesen sind. Nur durch Zusammenarbeit kann langfristig eine Lösung entstehen, die für beide Seiten fair ist.</p></aside>
-</section>
-
-<!-- 14 -->
-<section class="slide end">
-  <h1>Vielen Dank!</h1>
-  <p>Fragen &amp; Diskussion</p>
-  <aside class="note"><p>Danke für eure Aufmerksamkeit!</p></aside>
-</section>
-
-</div></div>
-
 <div id="progress"></div>
-<div id="notes"><h4>Sprechtext</h4><div id="notesBody"></div></div>
-<div id="hud">
-  <button id="bPrev" title="Zurück (←)">←</button>
-  <span id="count"></span>
-  <button id="bNext" title="Weiter (→)">→</button>
-  <button id="bNotes" title="Sprechtext (N)">N</button>
-  <button id="bFull" title="Vollbild (F)">⛶</button>
+<div id="bar">
+  <button id="smaller" aria-label="Schrift kleiner">A−</button>
+  <button id="bigger" aria-label="Schrift größer">A+</button>
+  <button id="theme" aria-label="Dunkelmodus">◐</button>
+  <button id="wake" aria-label="Bildschirm wach halten" title="Bildschirm bleibt an">☀︎</button>
 </div>
-<div id="help">← → / Tippen / Wischen · N Sprechtext · F Vollbild</div>
+
+<main>
+<h1><small>Hauptthema</small>Der Tarifkonflikt zwischen IG Metall und den Arbeitgebern</h1>
+
+<p>Ich möchte heute über den aktuellen Tarifkonflikt zwischen der Gewerkschaft IG Metall und den Arbeitgeberverbänden in der deutschen Metall- und Elektroindustrie berichten.</p>
+
+<p>Zunächst ist wichtig zu verstehen, was zu dieser Branche gehört. Dazu zählen beispielsweise die Automobilindustrie, der Maschinenbau, die Elektroindustrie und die Metallverarbeitung. Sie ist für Deutschland besonders bedeutend, weil sie rund 3,7 Millionen Menschen beschäftigt und eine wichtige Rolle für die deutsche Wirtschaft und den Export spielt.</p>
+
+<p>Der aktuelle Tarifkonflikt begann im Herbst 2026. Am 23. September beschloss die IG Metall ihre Forderungen. Die eigentlichen Tarifverhandlungen starteten am 7. Oktober. Nachdem mehrere Verhandlungsrunden ohne Einigung geblieben waren, endete am 31. Oktober die sogenannte Friedenspflicht. Ab dem 1. November waren deshalb Warnstreiks möglich.</p>
+
+<p class="q">Aber warum kam es überhaupt zu diesem Konflikt?</p>
+
+<p>Die deutsche Metall- und Elektroindustrie steht vor verschiedenen wirtschaftlichen Herausforderungen. Dazu gehören hohe Produktionskosten, internationale Konkurrenz und eine teilweise schwache Auftragslage. Besonders die Automobilindustrie muss sich beispielsweise an den Wandel zur Elektromobilität anpassen und viel Geld in neue Technologien investieren. Gleichzeitig sind in den vergangenen Jahren zahlreiche Arbeitsplätze verloren gegangen.</p>
+
+<p>Vor diesem Hintergrund haben beide Seiten unterschiedliche Interessen.</p>
+
+<p>Die IG Metall fordert fünf Prozent mehr Lohn innerhalb von zwölf Monaten. Außerdem möchte sie Arbeitsplätze und Standorte langfristig sichern. In wirtschaftlich erfolgreichen Unternehmen fordert sie zusätzlich eine tarifliche Gewinnbeteiligung. Die Gewerkschaft begründet ihre Forderungen damit, dass die Beschäftigten trotz der schwierigen wirtschaftlichen Lage eine faire Bezahlung und Sicherheit für ihre Zukunft verdienen.</p>
+
+<p>Die Arbeitgeber bieten dagegen eine Einmalzahlung von einem Prozent des durchschnittlichen tariflichen Jahresbruttoentgelts im Juli 2027 sowie eine Lohnerhöhung von 1,3 Prozent ab Juli 2028 an. Sie argumentieren, dass höhere Lohnkosten die Unternehmen zusätzlich belasten und ihre internationale Wettbewerbsfähigkeit gefährden könnten.</p>
+
+<p>Da sich die beiden Seiten bisher nicht einigen konnten, kam es zu Warnstreiks. Anfang November beteiligten sich bereits Hunderttausende Beschäftigte an kürzeren Arbeitsniederlegungen. Seit dem 20. November setzt die IG Metall zusätzlich auf ganztägige Warnstreiks, also Arbeitsniederlegungen über 24 Stunden. Laut der Gewerkschaft beteiligten sich allein am Freitag und Montag rund 340.000 Beschäftigte daran. Die Arbeitgeber kritisieren diese Streiks, weil sie zusätzliche wirtschaftliche Schäden und eine Gefährdung von Arbeitsplätzen befürchten.</p>
+
+<p>Am heutigen 25. November sollen die Verhandlungen in Mannheim fortgesetzt werden. Dabei geht es nicht nur um die Höhe der Löhne, sondern auch um die Zukunft der Arbeitsplätze und Industriestandorte in Deutschland.</p>
+
+<p>Der Konflikt zeigt also ein grundlegendes Problem: Einerseits brauchen Beschäftigte faire Löhne und sichere Arbeitsplätze. Andererseits müssen Unternehmen wirtschaftlich erfolgreich bleiben, um langfristig Arbeitsplätze anbieten und international konkurrenzfähig sein zu können.</p>
+
+<p>Deshalb möchte ich euch folgende Frage zur Diskussion stellen:</p>
+
+<p class="frage">Wie kann ein Ausgleich zwischen fairen Löhnen und der Wettbewerbsfähigkeit deutscher Unternehmen geschaffen werden?</p>
+
+<h2>1. KI in der Migrationsverwaltung</h2>
+
+<p>„In Deutschland wird diskutiert, ob künstliche Intelligenz künftig stärker in der Migrationsverwaltung eingesetzt werden soll. Dadurch könnten Verwaltungsverfahren schneller und effizienter werden. Kritiker warnen jedoch vor möglichen Problemen beim Datenschutz und vor diskriminierenden Entscheidungen durch Algorithmen.“</p>
+
+<h2>2. Wehrdienst und Wehrpflicht</h2>
+
+<p>„Auch die Wehrpflicht wird in Deutschland weiterhin diskutiert. Laut Verteidigungsministerium hatte die Bundeswehr Ende Oktober mehr als 190.000 aktive Soldatinnen und Soldaten. Damit wurde das aktuelle Personalziel sogar übertroffen. Deshalb sieht die Regierung momentan keinen Bedarf für zusätzliche verpflichtende Maßnahmen.“</p>
+
+<h2>Deutsche Forscher gewinnen den Deutschen Zukunftspreis</h2>
+
+<p>Eine positive Nachricht kommt aus der Wissenschaft: Am 18. November haben drei Forscher aus Karlsruhe den Deutschen Zukunftspreis gewonnen. Sie wurden für eine innovative Mikrochip-Technologie ausgezeichnet, die Daten mithilfe von Licht statt herkömmlicher elektrischer Signale übertragen kann. Dadurch können Informationen schneller und gleichzeitig energieeffizienter verarbeitet werden. Diese Entwicklung könnte in Zukunft besonders für leistungsfähige Computer und Rechenzentren wichtig sein. Der Preis zeigt, dass Deutschland weiterhin wichtige Beiträge zur technologischen Forschung leistet.</p>
+
+<h2>Mögliche Antwort auf die Diskussionsfrage</h2>
+
+<p>Eine gute Antwort sollte zeigen, dass <strong>beide Seiten berechtigte Interessen haben</strong>. Es geht also nicht darum, dass eine Seite vollständig nachgeben muss, sondern dass ein fairer Kompromiss gefunden wird.</p>
+
+<p>Meiner Meinung nach ist es wichtig, sowohl die Interessen der Arbeitnehmer als auch die der Unternehmen zu berücksichtigen. Einerseits haben die Beschäftigten aufgrund der gestiegenen Lebenshaltungskosten ein Recht auf faire Löhne. Außerdem brauchen sie Sicherheit für ihre Arbeitsplätze und ihre Zukunft. Andererseits stehen viele Unternehmen unter wirtschaftlichem Druck und müssen international wettbewerbsfähig bleiben. Zu hohe Lohnkosten könnten ihre finanzielle Situation zusätzlich verschlechtern und langfristig sogar Arbeitsplätze gefährden.</p>
+
+<p>Deshalb halte ich einen Kompromiss für sinnvoll: Die Löhne sollten schrittweise und entsprechend der wirtschaftlichen Lage der Unternehmen steigen. Gleichzeitig könnten Unternehmen und Gewerkschaften gemeinsam Maßnahmen entwickeln, um Arbeitsplätze zu sichern und die Wettbewerbsfähigkeit zu stärken. Erfolgreiche Unternehmen könnten ihre Beschäftigten zusätzlich am Gewinn beteiligen.</p>
+
+<p><strong>Letztendlich sollten beide Seiten verstehen, dass sie voneinander abhängig sind:</strong> Unternehmen brauchen qualifizierte und motivierte Arbeitnehmer, während Arbeitnehmer auf wirtschaftlich stabile Unternehmen angewiesen sind. Nur durch Zusammenarbeit kann langfristig eine Lösung entstehen, die für beide Seiten fair ist.</p>
+</main>
 
 <script>
-  const slides=[...document.querySelectorAll('.slide')];
-  const stage=document.getElementById('stage');
-  const notes=document.getElementById('notes'), notesBody=document.getElementById('notesBody');
-  let i=Math.min(Math.max((parseInt(location.hash.slice(1))||1)-1,0),slides.length-1);
+  const root=document.documentElement;
+  const get=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+  const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 
-  function fit(){
-    const vp=document.getElementById('viewport');
-    const w=vp.clientWidth, h=vp.clientHeight;
-    const cs=getComputedStyle(vp);
-    const aw=w-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
-    const ah=h-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
-    stage.style.transform=`scale(${Math.min(aw/1600,ah/900)})`;
-  }
-  function show(n){
-    i=Math.min(Math.max(n,0),slides.length-1);
-    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
-    document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
-    document.getElementById('count').textContent=`${i+1} / ${slides.length}`;
-    const note=slides[i].querySelector('.note');
-    notesBody.innerHTML=note?note.innerHTML:'';
-    history.replaceState(null,'','#'+(i+1));
-  }
-  const next=()=>show(i+1), prev=()=>show(i-1);
-  const toggleNotes=()=>notes.classList.toggle('show');
-  const de=document.documentElement;
-  const reqFS=de.requestFullscreen||de.webkitRequestFullscreen;
-  const exitFS=document.exitFullscreen||document.webkitExitFullscreen;
-  const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
-  const full=()=>{try{fsEl()?exitFS.call(document):reqFS&&reqFS.call(de);}catch(e){}};
-  if(!reqFS)document.getElementById('bFull').style.display='none';
+  // Font size
+  let fs=parseInt(get('fs'))||(innerWidth>=700?24:20);
+  const setFs=v=>{fs=Math.min(40,Math.max(15,v));root.style.setProperty('--fs',fs+'px');set('fs',fs);};
+  setFs(fs);
+  document.getElementById('smaller').onclick=()=>setFs(fs-2);
+  document.getElementById('bigger').onclick=()=>setFs(fs+2);
 
-  addEventListener('keydown',e=>{
-    if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
-    else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
-    else if(e.key==='Home')show(0);
-    else if(e.key==='End')show(slides.length-1);
-    else if(e.key.toLowerCase()==='n')toggleNotes();
-    else if(e.key.toLowerCase()==='f')full();
-  });
-  document.getElementById('viewport').addEventListener('click',e=>{if(swiped){swiped=false;return;}(e.clientX>innerWidth/3)?next():prev();});
-  let tx=null;
-  let ty=null, swiped=false;
-  const vpEl=document.getElementById('viewport');
-  vpEl.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;swiped=false;},{passive:true});
-  vpEl.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){swiped=true;(dx<0?next:prev)();}tx=null;},{passive:true});
-  document.getElementById('bPrev').onclick=prev;
-  document.getElementById('bNext').onclick=next;
-  document.getElementById('bNotes').onclick=toggleNotes;
-  document.getElementById('bFull').onclick=full;
-  addEventListener('resize',fit);
-  addEventListener('orientationchange',()=>setTimeout(fit,250));
-  if(window.visualViewport)visualViewport.addEventListener('resize',fit);
-  document.addEventListener('gesturestart',e=>e.preventDefault());
-  setTimeout(()=>document.getElementById('help').style.opacity=0,3500);
-  fit();show(i);
+  // Dark mode
+  const meta=document.querySelector('meta[name=theme-color]');
+  const applyDark=on=>{root.classList.toggle('dark',on);meta.content=on?'#141414':'#faf8f3';set('dark',on?'1':'0');};
+  applyDark(get('dark')==='1');
+  document.getElementById('theme').onclick=()=>applyDark(!root.classList.contains('dark'));
+
+  // Tap a paragraph to mark where you are
+  document.querySelectorAll('main p').forEach(p=>p.addEventListener('click',()=>{
+    const was=p.classList.contains('on');
+    document.querySelectorAll('p.on').forEach(x=>x.classList.remove('on'));
+    if(!was)p.classList.add('on');
+  }));
+
+  // Reading progress
+  const prog=document.getElementById('progress');
+  const upd=()=>{const h=root.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%';};
+  addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+
+  // Keep the screen on while reading (iPadOS 16.4+ / Chrome)
+  const wakeBtn=document.getElementById('wake');let lock=null,wanted=false;
+  if(!('wakeLock' in navigator))wakeBtn.style.display='none';
+  const acquire=async()=>{try{lock=await navigator.wakeLock.request('screen');}catch(e){lock=null;}};
+  wakeBtn.onclick=async()=>{
+    wanted=!wanted;wakeBtn.classList.toggle('active',wanted);
+    if(wanted)acquire();else if(lock){await lock.release();lock=null;}
+  };
+  document.addEventListener('visibilitychange',()=>{if(wanted&&document.visibilityState==='visible')acquire();});
 </script>
 </body>
 </html>
